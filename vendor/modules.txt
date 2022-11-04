@@ -1,0 +1,140 @@
+# github.com/StudioSol/set v0.0.0-20211001132805-52fe71d0afcf
+## explicit; go 1.12
+github.com/StudioSol/set
+# github.com/adshao/go-binance/v2 v2.3.5
+## explicit; go 1.13
+github.com/adshao/go-binance/v2
+github.com/adshao/go-binance/v2/common
+github.com/adshao/go-binance/v2/delivery
+github.com/adshao/go-binance/v2/futures
+# github.com/bitly/go-simplejson v0.5.0
+## explicit
+github.com/bitly/go-simplejson
+# github.com/cpuguy83/go-md2man/v2 v2.0.1
+## explicit; go 1.11
+github.com/cpuguy83/go-md2man/v2/md2man
+# github.com/davecgh/go-spew v1.1.1
+## explicit
+github.com/davecgh/go-spew/spew
+# github.com/evanw/esbuild v0.14.39
+## explicit; go 1.13
+github.com/evanw/esbuild/internal/api_helpers
+github.com/evanw/esbuild/internal/ast
+github.com/evanw/esbuild/internal/bundler
+github.com/evanw/esbuild/internal/cache
+github.com/evanw/esbuild/internal/compat
+github.com/evanw/esbuild/internal/config
+github.com/evanw/esbuild/internal/css_ast
+github.com/evanw/esbuild/internal/css_lexer
+github.com/evanw/esbuild/internal/css_parser
+github.com/evanw/esbuild/internal/css_printer
+github.com/evanw/esbuild/internal/fs
+github.com/evanw/esbuild/internal/graph
+github.com/evanw/esbuild/internal/helpers
+github.com/evanw/esbuild/internal/js_ast
+github.com/evanw/esbuild/internal/js_lexer
+github.com/evanw/esbuild/internal/js_parser
+github.com/evanw/esbuild/internal/js_printer
+github.com/evanw/esbuild/internal/logger
+github.com/evanw/esbuild/internal/renamer
+github.com/evanw/esbuild/internal/resolver
+github.com/evanw/esbuild/internal/runtime
+github.com/evanw/esbuild/internal/sourcemap
+github.com/evanw/esbuild/internal/xxhash
+github.com/evanw/esbuild/pkg/api
+# github.com/gorilla/websocket v1.5.0
+## explicit; go 1.12
+github.com/gorilla/websocket
+# github.com/jpillora/backoff v1.0.0
+## explicit; go 1.13
+github.com/jpillora/backoff
+# github.com/kr/pretty v0.3.0
+## explicit; go 1.12
+# github.com/markcheno/go-talib v0.0.0-20190307022042-cd53a9264d70
+## explicit
+github.com/markcheno/go-talib
+# github.com/mattn/go-runewidth v0.0.13
+## explicit; go 1.9
+github.com/mattn/go-runewidth
+# github.com/mitchellh/colorstring v0.0.0-20190213212951-d06e56a500db
+## explicit
+github.com/mitchellh/colorstring
+# github.com/olekukonko/tablewriter v0.0.5
+## explicit; go 1.12
+github.com/olekukonko/tablewriter
+# github.com/pkg/errors v0.9.1
+## explicit
+github.com/pkg/errors
+# github.com/pmezard/go-difflib v1.0.0
+## explicit
+github.com/pmezard/go-difflib/difflib
+# github.com/rivo/uniseg v0.2.0
+## explicit; go 1.12
+github.com/rivo/uniseg
+# github.com/russross/blackfriday/v2 v2.1.0
+## explicit
+github.com/russross/blackfriday/v2
+# github.com/schollz/progressbar/v3 v3.8.6
+## explicit; go 1.13
+github.com/schollz/progressbar/v3
+# github.com/sirupsen/logrus v1.8.1
+## explicit; go 1.13
+github.com/sirupsen/logrus
+# github.com/stretchr/objx v0.2.0
+## explicit; go 1.12
+# github.com/stretchr/testify v1.7.1
+## explicit; go 1.13
+github.com/stretchr/testify/assert
+github.com/stretchr/testify/require
+# github.com/tidwall/btree v1.1.0
+## explicit; go 1.16
+github.com/tidwall/btree
+github.com/tidwall/btree/internal
+# github.com/tidwall/buntdb v1.2.9
+## explicit; go 1.16
+github.com/tidwall/buntdb
+# github.com/tidwall/gjson v1.12.1
+## explicit; go 1.12
+github.com/tidwall/gjson
+# github.com/tidwall/grect v0.1.4
+## explicit; go 1.15
+github.com/tidwall/grect
+# github.com/tidwall/match v1.1.1
+## explicit; go 1.15
+github.com/tidwall/match
+# github.com/tidwall/pretty v1.2.0
+## explicit; go 1.16
+github.com/tidwall/pretty
+# github.com/tidwall/rtred v0.1.2
+## explicit; go 1.15
+github.com/tidwall/rtred
+github.com/tidwall/rtred/base
+# github.com/tidwall/tinyqueue v0.1.1
+## explicit; go 1.15
+github.com/tidwall/tinyqueue
+# github.com/urfave/cli/v2 v2.6.0
+## explicit; go 1.18
+github.com/urfave/cli/v2
+# github.com/xhit/go-str2duration/v2 v2.0.0
+## explicit; go 1.13
+github.com/xhit/go-str2duration/v2
+# golang.org/x/crypto v0.0.0-20220131195533-30dcbda58838
+## explicit; go 1.17
+golang.org/x/crypto/ssh/terminal
+# golang.org/x/sys v0.0.0-20220128215802-99c3d69c2c27
+## explicit; go 1.17
+golang.org/x/sys/internal/unsafeheader
+golang.org/x/sys/plan9
+golang.org/x/sys/unix
+golang.org/x/sys/windows
+# golang.org/x/term v0.0.0-20210927222741-03fcf44c2211
+## explicit; go 1.17
+golang.org/x/term
+# gopkg.in/check.v1 v1.0.0-20180628173108-788fd7840127
+## explicit
+# gopkg.in/tucnak/telebot.v2 v2.5.0
+## explicit; go 1.13
+gopkg.in/tucnak/telebot.v2
+# gopkg.in/yaml.v3 v3.0.0-20200605160147-a5ece683394c
+## explicit
+gopkg.in/yaml.v3
