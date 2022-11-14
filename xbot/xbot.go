@@ -1,24 +1,6 @@
 package xbot
 
-import (
-	"bytes"
-	"context"
-	"fmt"
-	"strconv"
-
-	"github.com/lynbklk/tradebot/exchange"
-	"github.com/lynbklk/tradebot/model"
-	"github.com/lynbklk/tradebot/notification"
-	"github.com/lynbklk/tradebot/order"
-	"github.com/lynbklk/tradebot/service"
-	"github.com/lynbklk/tradebot/storage"
-	"github.com/lynbklk/tradebot/strategy"
-
-	"github.com/olekukonko/tablewriter"
-	"github.com/schollz/progressbar/v3"
-	log "github.com/sirupsen/logrus"
-)
-
+/*
 const defaultDatabase = "xbot.db"
 
 func init() {
@@ -339,3 +321,4 @@ func (n *NinjaBot) Run(ctx context.Context) error {
 
 	return nil
 }
+*/

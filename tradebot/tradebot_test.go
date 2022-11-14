@@ -1,18 +1,6 @@
 package tradebot
 
-import (
-	"context"
-	"testing"
-
-	"github.com/markcheno/go-talib"
-	log "github.com/sirupsen/logrus"
-	"github.com/stretchr/testify/require"
-
-	"github.com/lynbklk/tradebot/exchange"
-	"github.com/lynbklk/tradebot/service"
-	"github.com/lynbklk/tradebot/storage"
-)
-
+/*
 type fakeStrategy struct{}
 
 func (e fakeStrategy) Timeframe() string {
@@ -111,3 +99,5 @@ func TestMarketOrder(t *testing.T) {
 
 	bot.Summary()
 }
+
+*/

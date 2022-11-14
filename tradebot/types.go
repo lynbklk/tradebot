@@ -1,9 +1,6 @@
 package tradebot
 
-import (
-	"github.com/lynbklk/tradebot/model"
-)
-
+/*
 type (
 	Settings         = model.Settings
 	TelegramSettings = model.TelegramSettings
@@ -32,3 +29,4 @@ var (
 	OrderStatusTypeRejected        = model.OrderStatusTypeRejected
 	OrderStatusTypeExpired         = model.OrderStatusTypeExpired
 )
+*/

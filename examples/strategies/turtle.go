@@ -1,13 +1,6 @@
 package strategies
 
-import (
-	"github.com/lynbklk/tradebot/service"
-	"github.com/lynbklk/tradebot/tradebot"
-
-	"github.com/markcheno/go-talib"
-	log "github.com/sirupsen/logrus"
-)
-
+/*
 // https://www.investopedia.com/articles/trading/08/turtle-trading.asp
 type Turtle struct{}
 
@@ -64,3 +57,4 @@ func (e *Turtle) OnCandle(df *tradebot.Dataframe, broker service.Broker) {
 		}
 	}
 }
+*/

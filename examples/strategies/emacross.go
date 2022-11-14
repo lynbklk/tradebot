@@ -1,12 +1,6 @@
 package strategies
 
-import (
-	"github.com/lynbklk/tradebot/service"
-	"github.com/lynbklk/tradebot/tradebot"
-
-	"github.com/markcheno/go-talib"
-	log "github.com/sirupsen/logrus"
-)
+/*
 
 type CrossEMA struct{}
 
@@ -61,3 +55,4 @@ func (e *CrossEMA) OnCandle(df *tradebot.Dataframe, broker service.Broker) {
 		}
 	}
 }
+*/

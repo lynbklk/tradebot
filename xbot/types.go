@@ -1,7 +1,7 @@
-package tradebot
+package xbot
 
 import (
-	"github.com/lynbklk/tradebot/model"
+	"github.com/lynbklk/tradebot/pkg/model"
 )
 
 type (

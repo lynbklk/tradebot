@@ -1,21 +1,6 @@
 package main
 
-import (
-	"context"
-	"os"
-	"strconv"
-
-	"github.com/lynbklk/tradebot/plot"
-	"github.com/lynbklk/tradebot/plot/indicator"
-
-	"github.com/lynbklk/tradebot/examples/strategies"
-	"github.com/lynbklk/tradebot/exchange"
-	"github.com/lynbklk/tradebot/storage"
-	"github.com/lynbklk/tradebot/tradebot"
-
-	log "github.com/sirupsen/logrus"
-)
-
+/*
 func main() {
 	var (
 		ctx             = context.Background()
@@ -98,3 +83,4 @@ func main() {
 		log.Fatalln(err)
 	}
 }
+*/

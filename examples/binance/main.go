@@ -1,15 +1,6 @@
 package main
 
-import (
-	"context"
-	"log"
-	"os"
-	"strconv"
-
-	"github.com/lynbklk/tradebot/examples/strategies"
-	"github.com/lynbklk/tradebot/exchange"
-	"github.com/lynbklk/tradebot/tradebot"
-)
+/*
 
 func main() {
 	var (
@@ -50,3 +41,4 @@ func main() {
 		log.Fatalln(err)
 	}
 }
+*/

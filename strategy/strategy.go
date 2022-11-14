@@ -1,8 +1,8 @@
 package strategy
 
 import (
-	"github.com/lynbklk/tradebot/model"
-	"github.com/lynbklk/tradebot/service"
+	"github.com/lynbklk/tradebot/pkg/exchange"
+	"github.com/lynbklk/tradebot/pkg/model"
 )
 
 type Strategy interface {
@@ -15,12 +15,12 @@ type Strategy interface {
 	Indicators(df *model.Dataframe)
 	// OnCandle will be executed for each new candle, after indicators are filled, here you can do your trading logic.
 	// OnCandle is executed after the candle close.
-	OnCandle(df *model.Dataframe, broker service.Broker)
+	OnCandle(df *model.Dataframe, trader exchange.Trader)
 }
 
 type HighFrequencyStrategy interface {
 	Strategy
 
 	// OnPartialCandle will be executed for each new partial candle, after indicators are filled.
-	OnPartialCandle(df *model.Dataframe, broker service.Broker)
+	OnPartialCandle(df *model.Dataframe, trader exchange.Trader)
 }

@@ -1,11 +1,11 @@
 package main
 
 import (
+	"github.com/lynbklk/tradebot/pkg/download"
 	"log"
 	"os"
 
-	"github.com/lynbklk/tradebot/download"
-	"github.com/lynbklk/tradebot/exchange"
+	"github.com/lynbklk/tradebot/pkg/exchange"
 
 	"github.com/urfave/cli/v2"
 )

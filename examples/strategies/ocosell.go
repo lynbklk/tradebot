@@ -1,13 +1,6 @@
 package strategies
 
-import (
-	"github.com/lynbklk/tradebot/model"
-	"github.com/lynbklk/tradebot/service"
-
-	"github.com/markcheno/go-talib"
-	log "github.com/sirupsen/logrus"
-)
-
+/*
 type OCOSell struct{}
 
 func (e OCOSell) Timeframe() string {
@@ -69,3 +62,4 @@ func (e *OCOSell) OnCandle(df *model.Dataframe, broker service.Broker) {
 		}
 	}
 }
+*/

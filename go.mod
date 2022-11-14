@@ -1,10 +1,11 @@
 module github.com/lynbklk/tradebot
 
-go 1.17
+go 1.18
 
 require (
 	github.com/StudioSol/set v0.0.0-20211001132805-52fe71d0afcf
 	github.com/adshao/go-binance/v2 v2.3.5
+	github.com/deckarep/golang-set/v2 v2.1.0
 	github.com/evanw/esbuild v0.14.39
 	github.com/jpillora/backoff v1.0.0
 	github.com/markcheno/go-talib v0.0.0-20190307022042-cd53a9264d70

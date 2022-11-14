@@ -1,20 +1,20 @@
 package strategy
 
 import (
+	"github.com/lynbklk/tradebot/pkg/exchange"
 	log "github.com/sirupsen/logrus"
 
-	"github.com/lynbklk/tradebot/model"
-	"github.com/lynbklk/tradebot/service"
+	"github.com/lynbklk/tradebot/pkg/model"
 )
 
 type Controller struct {
 	strategy  Strategy
 	dataframe *model.Dataframe
-	broker    service.Broker
+	trader    exchange.Trader
 	started   bool
 }
 
-func NewStrategyController(pair string, strategy Strategy, broker service.Broker) *Controller {
+func NewStrategyController(pair string, strategy Strategy, trader exchange.Trader) *Controller {
 	dataframe := &model.Dataframe{
 		Pair:     pair,
 		Metadata: make(map[string]model.Series),
@@ -23,7 +23,7 @@ func NewStrategyController(pair string, strategy Strategy, broker service.Broker
 	return &Controller{
 		dataframe: dataframe,
 		strategy:  strategy,
-		broker:    broker,
+		trader:    trader,
 	}
 }
 
@@ -36,7 +36,7 @@ func (s *Controller) OnPartialCandle(candle model.Candle) {
 		if str, ok := s.strategy.(HighFrequencyStrategy); ok {
 			s.updateDataFrame(candle)
 			str.Indicators(s.dataframe)
-			str.OnPartialCandle(s.dataframe, s.broker)
+			str.OnPartialCandle(s.dataframe, s.trader)
 		}
 	}
 }
@@ -72,7 +72,7 @@ func (s *Controller) OnCandle(candle model.Candle) {
 	if len(s.dataframe.Close) >= s.strategy.WarmupPeriod() {
 		s.strategy.Indicators(s.dataframe)
 		if s.started {
-			s.strategy.OnCandle(s.dataframe, s.broker)
+			s.strategy.OnCandle(s.dataframe, s.trader)
 		}
 	}
 }
