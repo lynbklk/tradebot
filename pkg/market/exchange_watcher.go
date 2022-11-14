@@ -8,6 +8,7 @@ import (
 	"github.com/lynbklk/tradebot/pkg/util"
 	"github.com/rs/zerolog/log"
 	"sync"
+	"time"
 )
 
 type ExchangeWatcher struct {
@@ -93,7 +94,8 @@ func (w *ExchangeWatcher) connect() {
 	for key := range w.Keys.Iter() {
 		pair, timeframe := util.PairTimeframeFromKey(key)
 		// preload
-		candles, _ := w.Exchange.GetCandlesByLimit(w.ctx, pair, timeframe, 30)
+		//candles, _ := w.Exchange.GetCandlesByLimit(w.ctx, pair, timeframe, 30)
+		candles, _ := w.Exchange.GetCandlesByPeriod(w.ctx, pair, timeframe, time.Now(), time.Now().AddDate(0, 0, -1))
 		log.Info().Msgf("preload candles, pair: %s, timeframe: %s, len: %d", pair, timeframe, len(candles))
 		for _, candle := range candles {
 			for _, notifier := range w.Notifiers[key] {
