@@ -7,8 +7,8 @@ import (
 	"os"
 	"time"
 
+	"github.com/rs/zerolog/log"
 	"github.com/schollz/progressbar/v3"
-	log "github.com/sirupsen/logrus"
 	"github.com/xhit/go-str2duration/v2"
 )
 
@@ -86,7 +86,7 @@ func (d Downloader) Download(ctx context.Context, pair, timeframe string, output
 	}
 	candlesCount++
 
-	log.Infof("Downloading %d candles of %s for %s", candlesCount, timeframe, pair)
+	log.Info().Msgf("Downloading %d candles of %s for %s", candlesCount, timeframe, pair)
 	info := d.exchange.GetAssetsInfo(pair)
 	writer := csv.NewWriter(recordFile)
 
@@ -121,19 +121,19 @@ func (d Downloader) Download(ctx context.Context, pair, timeframe string, output
 		}
 
 		if err = progressBar.Add(countCandles); err != nil {
-			log.Warningf("update progresbar fail: %s", err.Error())
+			log.Warn().Err(err).Msg("update progresbar failed.")
 		}
 	}
 
 	if err = progressBar.Close(); err != nil {
-		log.Warningf("close progresbar fail: %s", err.Error())
+		log.Warn().Err(err).Msg("close progressbar failed.")
 	}
 
 	if lostData > 0 {
-		log.Warningf("%d missing candles", lostData)
+		log.Warn().Msgf("%d missing candles", lostData)
 	}
 
 	writer.Flush()
-	log.Info("Done!")
+	log.Info().Msg("Done!")
 	return writer.Error()
 }

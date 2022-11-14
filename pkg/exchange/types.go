@@ -5,7 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/adshao/go-binance/v2"
-	log "github.com/sirupsen/logrus"
+	"github.com/rs/zerolog/log"
 	"sync"
 )
 
@@ -47,7 +47,7 @@ func SplitAssetQuote(pair string) (asset string, quote string) {
 		client := binance.NewClient("", "")
 		info, err := client.NewExchangeInfoService().Do(context.Background())
 		if err != nil {
-			log.Fatalf("failed to get exchange info: %v", err)
+			log.Fatal().Msgf("failed to get exchange info: %v", err)
 		}
 
 		for _, info := range info.Symbols {

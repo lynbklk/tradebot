@@ -8,36 +8,37 @@ import (
 	"github.com/lynbklk/tradebot/pkg/market"
 	"github.com/lynbklk/tradebot/pkg/notifier"
 	"github.com/lynbklk/tradebot/pkg/order"
-	log "github.com/sirupsen/logrus"
+	"github.com/rs/zerolog/log"
 )
 
 type TelegramBot struct {
 	exchange      exchange.Exchange
 	agent         indicator.Agent
 	notifier      notifier.Notifier
-	marketMonitor market.Monitor
+	marketWatcher market.Watcher
 	orderMonitor  order.Monitor
 }
 
 type Option func(*TelegramBot)
 
 func NewTelegramBot() *TelegramBot {
+	ctx := context.Background()
 	// new exchange
 	binance, err := exchange.NewBinance(
-		context.Background(),
+		ctx,
 		exchange.WithBinanceCredentials(config.C.Key, config.C.Secret))
 	if err != nil {
-		log.Fatalln(err)
+		log.Fatal().Err(err).Msg("init binance failed.")
 		return nil
 	}
 	// new market monitor
-	marketMonitor := market.NewMonitor(binance)
+	marketWatchr := market.NewExchangeWatcher(ctx, binance)
 	// TODO: marketMonitor.RegistWatcher()
 	// TODO: marketMonitor.Start()
 
 	telegramBot := &TelegramBot{
 		exchange:      binance,
-		marketMonitor: marketMonitor,
+		marketWatcher: marketWatchr,
 	}
 	return telegramBot
 }

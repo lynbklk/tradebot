@@ -11,7 +11,7 @@ import (
 
 	"github.com/lynbklk/tradebot/pkg/exchange"
 	"github.com/lynbklk/tradebot/pkg/model"
-	log "github.com/sirupsen/logrus"
+	"github.com/rs/zerolog/log"
 )
 
 type Controller struct {
@@ -100,14 +100,14 @@ func (c *Controller) calculateProfit(o *model.Order) (value, percent float64, er
 }
 
 func (c *Controller) notify(message string) {
-	log.Info(message)
+	log.Info().Msg(message)
 	if c.notifier != nil {
 		c.notifier.Notify(message)
 	}
 }
 
 func (c *Controller) notifyError(err error) {
-	log.Error(err)
+	log.Error().Err(err).Msg("order notify error")
 	if c.notifier != nil {
 		c.notifier.OnError(err)
 	}
@@ -169,7 +169,7 @@ func (c *Controller) updateOrders() {
 	for _, order := range orders {
 		excOrder, err := c.exchange.Order(order.Pair, order.ExchangeID)
 		if err != nil {
-			log.WithField("id", order.ExchangeID).Error("orderController/get: ", err)
+			log.Error().Err(err).Msgf("order controller get %d failed.", order.ExchangeID)
 			continue
 		}
 
@@ -185,7 +185,7 @@ func (c *Controller) updateOrders() {
 			continue
 		}
 
-		log.Infof("[ORDER %s] %s", excOrder.Status, excOrder)
+		log.Info().Msgf("[ORDER %s] %s", excOrder.Status, excOrder)
 		updatedOrders = append(updatedOrders, excOrder)
 	}
 
@@ -214,7 +214,7 @@ func (c *Controller) Start() {
 				}
 			}
 		}()
-		log.Info("Bot started.")
+		log.Info().Msg("Bot started.")
 	}
 }
 
@@ -223,7 +223,7 @@ func (c *Controller) Stop() {
 		c.status = StatusStopped
 		c.updateOrders()
 		c.finish <- true
-		log.Info("Bot stopped.")
+		log.Info().Msg("Bot stopped.")
 	}
 }
 
@@ -256,7 +256,7 @@ func (c *Controller) CreateOrderOCO(side model.SideType, pair string, size, pric
 	c.mtx.Lock()
 	defer c.mtx.Unlock()
 
-	log.Infof("[ORDER] Creating OCO order for %s", pair)
+	log.Info().Msgf("[ORDER] Creating OCO order for %s", pair)
 	orders, err := c.exchange.CreateOrderOCO(side, pair, size, price, stop, stopLimit)
 	if err != nil {
 		c.notifyError(err)
@@ -279,7 +279,7 @@ func (c *Controller) CreateOrderLimit(side model.SideType, pair string, size, li
 	c.mtx.Lock()
 	defer c.mtx.Unlock()
 
-	log.Infof("[ORDER] Creating LIMIT %s order for %s", side, pair)
+	log.Info().Msgf("[ORDER] Creating LIMIT %s order for %s", side, pair)
 	order, err := c.exchange.CreateOrderLimit(side, pair, size, limit)
 	if err != nil {
 		c.notifyError(err)
@@ -292,7 +292,7 @@ func (c *Controller) CreateOrderLimit(side model.SideType, pair string, size, li
 		return model.Order{}, err
 	}
 	go c.monitor.Publish(order)
-	log.Infof("[ORDER CREATED] %s", order)
+	log.Info().Msgf("[ORDER CREATED] %s", order)
 	return order, nil
 }
 
@@ -300,7 +300,7 @@ func (c *Controller) CreateOrderMarketQuote(side model.SideType, pair string, am
 	c.mtx.Lock()
 	defer c.mtx.Unlock()
 
-	log.Infof("[ORDER] Creating MARKET %s order for %s", side, pair)
+	log.Info().Msgf("[ORDER] Creating MARKET %s order for %s", side, pair)
 	order, err := c.exchange.CreateOrderMarketQuote(side, pair, amount)
 	if err != nil {
 		c.notifyError(err)
@@ -316,7 +316,7 @@ func (c *Controller) CreateOrderMarketQuote(side model.SideType, pair string, am
 	// calculate profit
 	c.processTrade(&order)
 	go c.monitor.Publish(order)
-	log.Infof("[ORDER CREATED] %s", order)
+	log.Info().Msgf("[ORDER CREATED] %s", order)
 	return order, err
 }
 
@@ -324,7 +324,7 @@ func (c *Controller) CreateOrderMarket(side model.SideType, pair string, size fl
 	c.mtx.Lock()
 	defer c.mtx.Unlock()
 
-	log.Infof("[ORDER] Creating MARKET %s order for %s", side, pair)
+	log.Info().Msgf("[ORDER] Creating MARKET %s order for %s", side, pair)
 	order, err := c.exchange.CreateOrderMarket(side, pair, size)
 	if err != nil {
 		c.notifyError(err)
@@ -340,7 +340,7 @@ func (c *Controller) CreateOrderMarket(side model.SideType, pair string, size fl
 	// calculate profit
 	c.processTrade(&order)
 	go c.monitor.Publish(order)
-	log.Infof("[ORDER CREATED] %s", order)
+	log.Info().Msgf("[ORDER CREATED] %s", order)
 	return order, err
 }
 
@@ -348,7 +348,7 @@ func (c *Controller) CreateOrderStop(pair string, size float64, limit float64) (
 	c.mtx.Lock()
 	defer c.mtx.Unlock()
 
-	log.Infof("[ORDER] Creating STOP order for %s", pair)
+	log.Info().Msgf("[ORDER] Creating STOP order for %s", pair)
 	order, err := c.exchange.CreateOrderStop(pair, size, limit)
 	if err != nil {
 		c.notifyError(err)
@@ -361,7 +361,7 @@ func (c *Controller) CreateOrderStop(pair string, size float64, limit float64) (
 		return model.Order{}, err
 	}
 	go c.monitor.Publish(order)
-	log.Infof("[ORDER CREATED] %s", order)
+	log.Info().Msgf("[ORDER CREATED] %s", order)
 	return order, nil
 }
 
@@ -369,7 +369,7 @@ func (c *Controller) Cancel(order model.Order) error {
 	c.mtx.Lock()
 	defer c.mtx.Unlock()
 
-	log.Infof("[ORDER] Cancelling order for %s", order.Pair)
+	log.Info().Msgf("[ORDER] Cancelling order for %s", order.Pair)
 	err := c.exchange.Cancel(order)
 	if err != nil {
 		return err
@@ -381,6 +381,6 @@ func (c *Controller) Cancel(order model.Order) error {
 		c.notifyError(err)
 		return err
 	}
-	log.Infof("[ORDER CANCELED] %s", order)
+	log.Info().Msgf("[ORDER CANCELED] %s", order)
 	return nil
 }

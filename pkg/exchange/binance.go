@@ -6,7 +6,7 @@ import (
 	"github.com/adshao/go-binance/v2"
 	"github.com/jpillora/backoff"
 	"github.com/lynbklk/tradebot/pkg/model"
-	log "github.com/sirupsen/logrus"
+	"github.com/rs/zerolog/log"
 	"strconv"
 	"time"
 )
@@ -95,7 +95,7 @@ func NewBinance(ctx context.Context, options ...BinanceOption) (Exchange, error)
 		exchange.assetsInfo[info.Symbol] = tradeLimits
 	}
 
-	log.Info("[SETUP] Using Binance exchange")
+	log.Info().Msg("Using Binance Exchange")
 
 	return exchange, nil
 }

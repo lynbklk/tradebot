@@ -3,7 +3,7 @@ package notifier
 import (
 	"fmt"
 	"github.com/lynbklk/tradebot/pkg/model"
-	log "github.com/sirupsen/logrus"
+	"github.com/rs/zerolog/log"
 	"net/smtp"
 )
 
@@ -37,7 +37,7 @@ func (t Mail) Notify(text string) {
 		[]string{t.to},
 		[]byte(message))
 	if err != nil {
-		log.WithError(err).Errorf("notification/mail: couldnt send mail")
+		log.Error().Err(err).Msg("notification/mail: couldn't send mail")
 	}
 }
 

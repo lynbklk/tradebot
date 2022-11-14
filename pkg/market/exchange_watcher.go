@@ -6,7 +6,7 @@ import (
 	"github.com/lynbklk/tradebot/pkg/exchange"
 	"github.com/lynbklk/tradebot/pkg/model"
 	"github.com/lynbklk/tradebot/pkg/util"
-	log "github.com/sirupsen/logrus"
+	"github.com/rs/zerolog/log"
 	"sync"
 )
 
@@ -43,7 +43,7 @@ func (w *ExchangeWatcher) RegistNotifier(notifier Notifier) {
 }
 
 func (w *ExchangeWatcher) Preload(pair string, timeframe string, candles []model.Candle) {
-	log.Infof("[SETUP] preloading %d candles for %s-%s", len(candles), pair, timeframe)
+	log.Info().Msgf("preloading %d candles for %s-%s", len(candles), pair, timeframe)
 	key := util.PairTimeframeToKey(pair, timeframe)
 	for _, candle := range candles {
 		if !candle.Complete {
@@ -77,19 +77,19 @@ func (w *ExchangeWatcher) Watch() {
 					}
 				case err := <-feed.Err:
 					if err != nil {
-						log.Error("dataFeedSubscription/start: ", err)
+						log.Error().Err(err).Msg("dataFeedSubscription start failed.")
 					}
 				}
 			}
 		}(key, feed)
 	}
 
-	log.Infof("Data feed connected.")
+	log.Info().Msg("Data feed connected.")
 	wg.Wait()
 }
 
 func (w *ExchangeWatcher) connect() {
-	log.Infof("Connecting to the exchange.")
+	log.Info().Msg("Connecting to the exchange.")
 	for key := range w.Keys.Iter() {
 		pair, timeframe := util.PairTimeframeFromKey(key)
 		// preload

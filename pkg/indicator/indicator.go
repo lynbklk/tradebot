@@ -59,9 +59,11 @@ func (i *Indicator) IsOnCandleClose() bool {
 }
 
 func (i *Indicator) Notify(candle model.Candle) {
-	i.updateDataframe(candle)
-	i.updateMetaData()
-	i.Agent.Notify(util.PairTimeframeToKey(i.Pair, i.Timeframe))
+	if len(i.Dataframe.Close) >= 30 {
+		i.updateDataframe(candle)
+		i.updateMetaData()
+		i.Agent.Notify(util.PairTimeframeToKey(i.Pair, i.Timeframe))
+	}
 }
 
 func (i *Indicator) GetValue(t string, period int) model.Series {

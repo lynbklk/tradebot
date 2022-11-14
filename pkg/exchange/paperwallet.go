@@ -5,7 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/lynbklk/tradebot/pkg/model"
-	log "github.com/sirupsen/logrus"
+	"github.com/rs/zerolog/log"
 	"math"
 	"strings"
 	"sync"
@@ -98,8 +98,7 @@ func NewPaperWallet(ctx context.Context, baseCoin string, options ...PaperWallet
 	}
 
 	wallet.initialValue = wallet.assets[wallet.baseCoin].Free
-	log.Info("[SETUP] Using paper wallet")
-	log.Infof("[SETUP] Initial Portfolio = %f %s", wallet.initialValue, wallet.baseCoin)
+	log.Info().Msg("[SETUP] Using paper wallet")
 
 	return &wallet
 }
@@ -219,7 +218,7 @@ func (p *PaperWallet) lockFunds(asset string, amount float64) error {
 	}
 	p.assets[asset].Free = p.assets[asset].Free - amount
 	p.assets[asset].Lock = p.assets[asset].Lock + amount
-	log.Infof("%s -> LOCK = %f / FREE %f", asset, p.assets[asset].Lock, p.assets[asset].Free)
+	log.Info().Msgf("%s -> LOCK = %f / FREE %f", asset, p.assets[asset].Lock, p.assets[asset].Free)
 	return nil
 }
 
@@ -294,7 +293,7 @@ func (p *PaperWallet) OnCandle(candle model.Candle) {
 			orderVolume := order.Quantity * orderPrice
 			profitValue := order.Quantity*orderPrice - order.Quantity*p.avgPrice[candle.Pair]
 			percentage := profitValue / (order.Quantity * p.avgPrice[candle.Pair])
-			log.Infof("PROFIT = %.4f %s (%.2f %%)", profitValue, quote, percentage*100)
+			log.Info().Msgf("PROFIT = %.4f %s (%.2f %%)", profitValue, quote, percentage*100)
 
 			p.volume[candle.Pair] += orderVolume
 			p.orders[i].UpdatedAt = candle.Time
