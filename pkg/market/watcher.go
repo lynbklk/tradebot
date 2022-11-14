@@ -11,6 +11,6 @@ type Watcher interface {
 
 type Notifier interface {
 	GetDataInfo() model.DataInfo
-	Notify(candle model.Candle)
+	Notify(candle model.Candle, preload bool)
 	IsOnCandleClose() bool
 }

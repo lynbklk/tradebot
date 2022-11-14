@@ -51,7 +51,7 @@ func (w *ExchangeWatcher) Preload(pair string, timeframe string, candles []model
 		}
 
 		for _, notifier := range w.Notifiers[key] {
-			notifier.Notify(candle)
+			notifier.Notify(candle, true)
 		}
 	}
 }
@@ -73,7 +73,7 @@ func (w *ExchangeWatcher) Watch() {
 						if notifier.IsOnCandleClose() && !candle.Complete {
 							continue
 						}
-						notifier.Notify(candle)
+						notifier.Notify(candle, false)
 					}
 				case err := <-feed.Err:
 					if err != nil {
@@ -94,9 +94,10 @@ func (w *ExchangeWatcher) connect() {
 		pair, timeframe := util.PairTimeframeFromKey(key)
 		// preload
 		candles, _ := w.Exchange.GetCandlesByLimit(w.ctx, pair, timeframe, 30)
+		log.Info().Msgf("preload candles, pair: %s, timeframe: %s, len: %d", pair, timeframe, len(candles))
 		for _, candle := range candles {
 			for _, notifier := range w.Notifiers[key] {
-				notifier.Notify(candle)
+				notifier.Notify(candle, true)
 			}
 		}
 		// subscribe
