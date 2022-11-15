@@ -28,6 +28,7 @@ func WithAgent(agent *Agent) Option {
 func WithPairTimeframe(pair string, timeframe string) Option {
 	return func(indicator *Indicator) {
 		indicator.Pair = pair
+		indicator.Dataframe.Pair = pair
 		indicator.Timeframe = timeframe
 	}
 }
@@ -40,7 +41,9 @@ func WithCandleClose(close bool) Option {
 
 func NewIndicator(options ...Option) *Indicator {
 	indicator := &Indicator{
-		Dataframe: &model.Dataframe{},
+		Dataframe: &model.Dataframe{
+			Metadata: make(map[string]model.Series),
+		},
 	}
 	for _, option := range options {
 		option(indicator)

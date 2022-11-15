@@ -31,7 +31,7 @@ func main() {
 	agent := indicator.NewAgent(ctx, indicator.WithExchange(binance))
 
 	strategyEma45 := strategy.NewEma45Strategy(agent)
-	strategyEma45.AddIndicators("btcusdt", "1m")
+	strategyEma45.AddIndicators("BTCUSDT", "1m")
 	strategyEma45.Run()
 }
 
