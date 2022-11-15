@@ -5,7 +5,6 @@ import (
 	"github.com/lynbklk/tradebot/pkg/model"
 	"github.com/lynbklk/tradebot/pkg/util"
 	"github.com/markcheno/go-talib"
-	"github.com/rs/zerolog/log"
 	"strings"
 )
 
@@ -63,7 +62,6 @@ func (i *Indicator) IsOnCandleClose() bool {
 }
 
 func (i *Indicator) Notify(candle model.Candle, preload bool) {
-	log.Info().Msgf("indicator notify. indicator: %v, candle: %v", i.GetDataInfo(), candle)
 	i.updateDataframe(candle)
 	if !preload && len(i.Dataframe.Close) >= 30 {
 		i.updateMetaData()

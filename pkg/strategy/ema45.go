@@ -27,7 +27,9 @@ func (s *Ema45Strategy) AddIndicators(pair string, timeframe string) {
 }
 
 func (s *Ema45Strategy) Update(indicator *indicator.Indicator) {
-	fmt.Println(indicator.GetDataframe())
+	ema8 := indicator.GetDataframe().Metadata["ema8"].Last(0)
+	close := indicator.GetDataframe().Close.Last(0)
+	fmt.Printf("ema8: %f, close: %f\n", ema8, close)
 	return
 }
 
