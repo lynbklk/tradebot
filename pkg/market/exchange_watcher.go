@@ -95,7 +95,7 @@ func (w *ExchangeWatcher) connect() {
 		pair, timeframe := util.PairTimeframeFromKey(key)
 		// preload
 		//candles, _ := w.Exchange.GetCandlesByLimit(w.ctx, pair, timeframe, 30)
-		candles, _ := w.Exchange.GetCandlesByPeriod(w.ctx, pair, timeframe, time.Now(), time.Now().AddDate(0, 0, -1))
+		candles, _ := w.Exchange.GetCandlesByPeriod(w.ctx, pair, timeframe, time.Now().AddDate(0, 0, -1), time.Now())
 		log.Info().Msgf("preload candles, pair: %s, timeframe: %s, len: %d", pair, timeframe, len(candles))
 		for _, candle := range candles {
 			for _, notifier := range w.Notifiers[key] {
