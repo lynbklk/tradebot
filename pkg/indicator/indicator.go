@@ -99,6 +99,8 @@ func (i *Indicator) updateDataframe(candle model.Candle) {
 }
 
 func (i *Indicator) updateMetaData() {
-	i.Dataframe.Metadata["ema8"] = talib.Ema(i.Dataframe.Close, 8)
-	i.Dataframe.Metadata["sma21"] = talib.Sma(i.Dataframe.Close, 21)
+	params := util.TimeframePeriods[i.Timeframe]
+	for _, param := range params {
+		i.Dataframe.Metadata[fmt.Sprintf("ema%d", param)] = talib.Ema(i.Dataframe.Close, param)
+	}
 }

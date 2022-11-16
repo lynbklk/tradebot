@@ -32,6 +32,8 @@ func main() {
 
 	strategyEma45 := strategy.NewEma45Strategy(agent)
 	strategyEma45.AddIndicators("BTCUSDT", "1m")
+	strategyEma45.AddIndicators("BTCUSDT", "1h")
+	strategyEma45.AddIndicators("BTCUSDT", "1d")
 	strategyEma45.Run()
 }
 

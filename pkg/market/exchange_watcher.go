@@ -7,6 +7,7 @@ import (
 	"github.com/lynbklk/tradebot/pkg/model"
 	"github.com/lynbklk/tradebot/pkg/util"
 	"github.com/rs/zerolog/log"
+	"strings"
 	"sync"
 	"time"
 )
@@ -14,12 +15,12 @@ import (
 type ExchangeWatcher struct {
 	ctx       context.Context
 	Exchange  exchange.Exchange
-	Feeds     map[string]*Feed
+	Feeds     map[string]*ExchangeFeed
 	Notifiers map[string][]Notifier
 	Keys      *set.LinkedHashSetString
 }
 
-type Feed struct {
+type ExchangeFeed struct {
 	Pair      string
 	Timeframe string
 	Data      chan model.Candle
@@ -30,7 +31,7 @@ func NewExchangeWatcher(ctx context.Context, e exchange.Exchange) Watcher {
 	return &ExchangeWatcher{
 		ctx:       ctx,
 		Exchange:  e,
-		Feeds:     make(map[string]*Feed),
+		Feeds:     make(map[string]*ExchangeFeed),
 		Notifiers: make(map[string][]Notifier),
 		Keys:      set.NewLinkedHashSetString(),
 	}
@@ -43,26 +44,12 @@ func (w *ExchangeWatcher) RegistNotifier(notifier Notifier) {
 	w.Notifiers[key] = append(w.Notifiers[key], notifier)
 }
 
-func (w *ExchangeWatcher) Preload(pair string, timeframe string, candles []model.Candle) {
-	log.Info().Msgf("preloading %d candles for %s-%s", len(candles), pair, timeframe)
-	key := util.PairTimeframeToKey(pair, timeframe)
-	for _, candle := range candles {
-		if !candle.Complete {
-			continue
-		}
-
-		for _, notifier := range w.Notifiers[key] {
-			notifier.Notify(candle, true)
-		}
-	}
-}
-
 func (w *ExchangeWatcher) Watch() {
 	w.connect()
 	wg := new(sync.WaitGroup)
 	for key, feed := range w.Feeds {
 		wg.Add(1)
-		go func(key string, feed *Feed) {
+		go func(key string, feed *ExchangeFeed) {
 			for {
 				select {
 				case candle, ok := <-feed.Data:
@@ -94,8 +81,12 @@ func (w *ExchangeWatcher) connect() {
 	for key := range w.Keys.Iter() {
 		pair, timeframe := util.PairTimeframeFromKey(key)
 		// preload
-		//candles, _ := w.Exchange.GetCandlesByLimit(w.ctx, pair, timeframe, 30)
-		candles, _ := w.Exchange.GetCandlesByPeriod(w.ctx, pair, timeframe, time.Now().AddDate(0, 0, -1), time.Now())
+		days := -1
+		if strings.HasSuffix(timeframe, "d") {
+			periods := util.TimeframePeriods[timeframe]
+			days = 0 - periods[len(periods)-1] - 2
+		}
+		candles, _ := w.Exchange.GetCandlesByPeriod(w.ctx, pair, timeframe, time.Now().AddDate(0, 0, days), time.Now())
 		log.Info().Msgf("preload candles, pair: %s, timeframe: %s, len: %d", pair, timeframe, len(candles))
 		for _, candle := range candles {
 			for _, notifier := range w.Notifiers[key] {
@@ -104,7 +95,7 @@ func (w *ExchangeWatcher) connect() {
 		}
 		// subscribe
 		data, err := w.Exchange.SubscribeCandle(w.ctx, pair, timeframe)
-		w.Feeds[key] = &Feed{
+		w.Feeds[key] = &ExchangeFeed{
 			Pair:      pair,
 			Timeframe: timeframe,
 			Data:      data,
