@@ -61,7 +61,7 @@ func (i *Indicator) IsOnCandleClose() bool {
 	return i.OnCandleClose
 }
 
-func (i *Indicator) Notify(candle model.Candle, preload bool) {
+func (i *Indicator) Notify(candle *model.Candle, preload bool) {
 	i.updateDataframe(candle)
 	if !preload && len(i.Dataframe.Close) >= 30 {
 		i.updateMetaData()
@@ -78,7 +78,7 @@ func (i *Indicator) GetDataframe() *model.Dataframe {
 	return i.Dataframe
 }
 
-func (i *Indicator) updateDataframe(candle model.Candle) {
+func (i *Indicator) updateDataframe(candle *model.Candle) {
 	if len(i.Dataframe.Time) > 0 && candle.Time.Equal(i.Dataframe.Time[len(i.Dataframe.Time)-1]) {
 		last := len(i.Dataframe.Time) - 1
 		i.Dataframe.Close[last] = candle.Close

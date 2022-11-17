@@ -23,7 +23,7 @@ type ExchangeWatcher struct {
 type ExchangeFeed struct {
 	Pair      string
 	Timeframe string
-	Data      chan model.Candle
+	Data      chan *model.Candle
 	Err       chan error
 }
 
@@ -90,7 +90,7 @@ func (w *ExchangeWatcher) connect() {
 		log.Info().Msgf("preload candles, pair: %s, timeframe: %s, len: %d", pair, timeframe, len(candles))
 		for _, candle := range candles {
 			for _, notifier := range w.Notifiers[key] {
-				notifier.Notify(candle, true)
+				notifier.Notify(&candle, true)
 			}
 		}
 		// subscribe

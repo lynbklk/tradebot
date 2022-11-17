@@ -168,8 +168,8 @@ func (b *Binance) GetCandlesByLimit(ctx context.Context, pair, period string, li
 	return candles[:len(candles)-1], nil
 }
 
-func (b *Binance) SubscribeCandle(ctx context.Context, pair, period string) (chan model.Candle, chan error) {
-	ccandle := make(chan model.Candle)
+func (b *Binance) SubscribeCandle(ctx context.Context, pair, period string) (chan *model.Candle, chan error) {
+	ccandle := make(chan *model.Candle)
 	cerr := make(chan error)
 	ha := model.NewHeikinAshi()
 
@@ -188,7 +188,7 @@ func (b *Binance) SubscribeCandle(ctx context.Context, pair, period string) (cha
 					candle = candle.ToHeikinAshi(ha)
 				}
 
-				ccandle <- candle
+				ccandle <- &candle
 
 			}, func(err error) {
 				cerr <- err

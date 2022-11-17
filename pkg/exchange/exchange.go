@@ -11,7 +11,7 @@ type Feeder interface {
 	GetLastQuote(ctx context.Context, pair string) (float64, error)
 	GetCandlesByPeriod(ctx context.Context, pair, period string, start, end time.Time) ([]model.Candle, error)
 	GetCandlesByLimit(ctx context.Context, pair, period string, limit int) ([]model.Candle, error)
-	SubscribeCandle(ctx context.Context, pair, timeframe string) (chan model.Candle, chan error)
+	SubscribeCandle(ctx context.Context, pair, timeframe string) (chan *model.Candle, chan error)
 }
 
 type Trader interface {
